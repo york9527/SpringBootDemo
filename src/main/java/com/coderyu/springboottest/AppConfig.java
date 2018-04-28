@@ -1,3 +1,4 @@
+/*
 package com.coderyu.springboottest;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 public class AppConfig {
     @Value("driver")
     private String driver;
-
 
     @Value("url")
     private String url;
@@ -65,4 +65,4 @@ public class AppConfig {
     public void setMaxThreadCount(Integer maxThreadCount) {
         this.count = maxThreadCount;
     }
-}
+}*/
