@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -16,8 +17,9 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserMapperTest  {
+public class UserMapperTest{
 
+    @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection"})
     @Autowired
     private UserMapper userMapper;
 
