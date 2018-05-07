@@ -1,17 +1,22 @@
 package com.coderyu.springboottest.model;
 
+import java.util.Date;
+
 public class User {
     private Integer id;
     private String name;
-    private String email;
-
-    public User(Integer id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
+    private String password;
+    private Date createTime;
+    private Boolean isActive;
 
     public User() {
+    }
+
+    public User(String name, String password, Date createTime, Boolean isActive) {
+        this.name = name;
+        this.password = password;
+        this.createTime = createTime;
+        this.isActive = isActive;
     }
 
     public Integer getId() {
@@ -30,11 +35,27 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

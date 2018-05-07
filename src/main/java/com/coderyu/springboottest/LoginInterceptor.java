@@ -12,8 +12,12 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         //登录页面放行
-        if (uri.toLowerCase().contains("login")) {
-            return true;
+        String requestUri=uri.toLowerCase();
+        String[] openUriList=new String[]{"/login","/webjars","/images","/css"};
+        for (String openUri:openUriList ) {
+            if(requestUri.startsWith(openUri)){
+                return true;
+            }
         }
 
         if (request.getSession().getAttribute("user") != null) {
