@@ -12,9 +12,16 @@
     </resultMap>
 
     <select id="findAllUsers" resultMap="UserResultMap">
-        select name,password,create_time,is_active from users
+        SELECT name,password,create_time,is_active FROM users
+    </select>
+    
+    <select id="findUserByName" resultMap="UserResultMap">
+        SELECT name,password,create_time,is_active FROM users WHERE name=#{name}
     </select>
 
+    <select id="findUserById" resultMap="UserResultMap">
+        SELECT name,password,create_time,is_active FROM users WHERE id=#{id}
+    </select>
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="user.Id" keyColumn="Id">
         INSERT INTO users(name,password,create_time,is_active)
         VALUES (#{name},#{password},#{createTime},#{isActive})

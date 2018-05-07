@@ -30,6 +30,22 @@ public class UserMapperTest {
     }
 
     @Test
+    public void findUserById(){
+        User user=userMapper.findUserById(1);
+        assertNotNull(user);
+    }
+
+    @Test
+    public void findUserByName(){
+        User user=new User("Jhon","123456",new Date(),Boolean.valueOf("True"));
+        userMapper.insertUser(user);
+        List<User> users=userMapper.findUserByName(user.getName());
+        assertNotNull(users);
+        assertTrue(!users.isEmpty());
+        assertTrue(user.getName().equals(users.get(0).getName()));
+    }
+
+    @Test
     public void findAllUsers(){
         List<User> users= userMapper.findAllUsers();
         assertNotNull(users);
