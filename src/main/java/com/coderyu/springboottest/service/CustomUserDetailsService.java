@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         List<User> users=userMapper.findUserByName(userName);
-        if(users==null || !users.isEmpty()){
+        if(users==null || users.isEmpty()){
             throw new UsernameNotFoundException("用户名"+userName+"不存在");
         }
-
+        //String pwd=new BCryptPasswordEncoder().encode("123456");
         User user=users.get(0);
-
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
                 user.getPassword(),
