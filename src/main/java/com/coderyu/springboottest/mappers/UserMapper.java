@@ -10,4 +10,5 @@ public interface UserMapper {
     User findUserById(Integer id);
     List<User> findUserByName(String name);
     List<User> findAllUsers();
+    List<User> findUserWithRolesByName(String name);
 }

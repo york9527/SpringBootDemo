@@ -1,6 +1,7 @@
 package com.coderyu.springboottest.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private Integer id;
@@ -8,6 +9,7 @@ public class User {
     private String password;
     private Date createTime;
     private Boolean isActive;
+    private List<Role> roles;
 
     public User() {
     }
@@ -58,4 +60,8 @@ public class User {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    public List<Role> getRoles() { return roles; }
+
+    public void setRoles(List<Role> roles) { this.roles = roles; }
 }

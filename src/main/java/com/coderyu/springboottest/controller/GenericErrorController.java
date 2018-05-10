@@ -18,7 +18,7 @@ public class GenericErrorController implements ErrorController {
     @ResponseBody
     public String error(){
 
-        return "errorPage.html";
+        return "Error from GenericErrorController";
     }
 
     @Override

@@ -24,11 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        List<User> users=userMapper.findUserByName(userName);
+        List<User> users=userMapper.findUserWithRolesByName(userName);
         if(users==null || users.isEmpty()){
             throw new UsernameNotFoundException("用户名"+userName+"不存在");
         }
-        //String pwd=new BCryptPasswordEncoder().encode("123456");
+
         User user=users.get(0);
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
@@ -38,6 +38,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user){
-        return AuthorityUtils.createAuthorityList("buyer_assistant","sales_manager");
+        String[] roles=user.getRoles()
+                .stream()
+                .map((role)->role.getName())
+                .toArray(String[]::new);
+        return AuthorityUtils.createAuthorityList(roles);
     }
 }
