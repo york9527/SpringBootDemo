@@ -1,4 +1,12 @@
-body {
-    background-color: #A7A5A4;
-    padding-top: 50px;
+.navbar-static-top .navbar-search-form{
+    width: 250px;
+    float: left;
+}
+
+.navbar-search-form .sidebar-form{
+    margin:0 !important;
+}
+
+.navbar-search-form .sidebar-form input[type="text"], .skin-blue .sidebar-form .btn{
+    background-color: #fff !important;
 }

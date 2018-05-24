@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/adminlte/**", "/webjars/**", "/assets/**","/css/**","/js/**","/images/**")
+                .antMatchers("/adminlte2.4.3/**", "/webjars/**", "/assets/**","/css/**","/js/**","/images/**")
                 .permitAll()
                 //.antMatchers("/login").permitAll()
                 //.antMatchers("/admin/").hasRole("ADMIN")
