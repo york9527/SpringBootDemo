@@ -36,7 +36,7 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = POST)
+/*    @RequestMapping(value = "/login", method = POST)
     public String loginPost(String userName, String userPwd, Model model, HttpServletRequest request) {
         if (userService.isUserNameAndPasswordValid(userName,userPwd)) {
             HttpSession session = request.getSession();
@@ -45,13 +45,13 @@ public class HomeController {
         }
         model.addAttribute("loginFailedMsg", "用户名或密码错误。");
         return "login";
-    }
+    }*/
 
-    @RequestMapping(value = "/logout", method = GET)
+/*    @RequestMapping(value = "/logout", method = GET)
     public String logOut(HttpServletRequest request) {
         request.getSession().invalidate();
         return "redirect:/login";
-    }
+    }*/
 
     @RequestMapping("/accessDenied")
     @ResponseBody

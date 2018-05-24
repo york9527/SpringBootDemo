@@ -1,56 +1,28 @@
-html,
-body {
-    height: 100%;
+.form-signin{
+    margin-bottom: 20px;
 }
 
-body {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
+.checkbox label{
+    margin-bottom: 0;
+    margin-top: 7px;
 }
 
-.form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
+.has-feedback{
+    position:relative;
 }
-.form-signin .checkbox {
-    font-weight: 400;
-}
-.form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-}
-.form-signin .form-control:focus {
+
+.form-control-feedback{
+    position: absolute;
+    top: 0;
+    right: 0;
     z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
 }
-.form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.form-signin .floatL{
-    float: left;
-}
-.form-signin .floatR{
-    float: right;
-}
-
-.form-signin .error-message{
-    color: red;
-    padding-top: 10px;
+.icheckbox_square-blue{
+    height: 27px !important;
 }
