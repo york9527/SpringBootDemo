@@ -1,28 +1,12 @@
-.form-signin{
-    margin-bottom: 20px;
+.login-box-body, .register-box-body{
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
 }
 
-.checkbox label{
-    margin-bottom: 0;
-    margin-top: 7px;
+.login-page, .register-page{
+    background: #e9ecef !important;
 }
-
-.has-feedback{
-    position:relative;
-}
-
-.form-control-feedback{
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    display: block;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    pointer-events: none;
-}
-.icheckbox_square-blue{
-    height: 27px !important;
+.login-box, .register-box{
+    margin:12% auto !important;
 }
