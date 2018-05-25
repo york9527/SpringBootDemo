@@ -257,9 +257,9 @@ desired effect
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-user-o"></i>用户管理</a></li>
-                        <li><a href="#"><i class="fa fa-cog"></i>角色管理</a></li>
-                        <li><a href="#"><i class="fa fa-cog"></i>权限管理</a></li>
+                        <li><a href="/userlist"><i class="fa fa-user-o"></i>用户管理</a></li>
+                        <li><a href="/userlist"><i class="fa fa-cog"></i>角色管理</a></li>
+                        <li><a href="/userlist"><i class="fa fa-cog"></i>权限管理</a></li>
                     </ul>
                 </li>
             </ul>
@@ -270,46 +270,29 @@ desired effect
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active <i class="fa fa-close"></i></a>
-                </li>
-                <li class="nav-item">
 
-                        <a class="nav-link" href="#">Link</a>
-                        <i class="fa fa-close"></i>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link <i class="fa fa-close"></i></a>
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled <i class="fa fa-close"></i></a>
-
-                </li>
-            </ul>
+        <div class="tab-header-container">
+            <div class="tab-header">
+                <div id="tab1">销售订单</div>
+                <i class="fa fa-close"></i>
+            </div>
+            <div class="tab-header">
+                <div id="tab2">物流跟踪发货处理</div>
+                <i class="fa fa-close"></i>
+            </div>
+            <div class="tab-header">
+                <div  id="tab3">款票冲兑</div>
+                <i class="fa fa-close"></i>
+            </div>
         </div>
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Page Header
-                <small>Optional description</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
-        </section>
 
-        <!-- Main content -->
-        <section class="content container-fluid">
+        <div class="tab_page_container">
+            <div class="tab-page" id="page1">
+                <iframe src="/userlist" width="100%" height="100%" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>
+            </div>
 
-            <!--------------------------
-              | Your Page Content Here |
-              -------------------------->
+        </div>
 
-        </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -405,5 +388,109 @@ desired effect
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+<script>
+    $(function(){
+        tabManager.init();
+
+        $(".sidebar-menu a").click(function (e) {
+            var href=$(this).attr("href");
+            if(href!=="#"){
+                e.stopPropagation();
+                var tabId=tabManager.addTab("Test",$(this).data("tabId"));
+                $(this).data("tabId",tabId);
+                return false;
+            }
+            return true;
+        })
+
+        $(".tab-header-container").on("click",".fa-close",function () {
+           //console.log($(this).prev().attr("id"));
+            $(this).parent().remove();
+        });
+
+    });
+
+    function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    }
+
+    var tabManager=(function(){
+        var currentTab=0;
+        var currentPageIndex=0;
+        var $tabContainer;
+
+        var tabHtmlTemplate="<div class='tab-header'><div id='tab_id'>tab_name</div><i class='fa fa-close'></i></div>";
+
+        var createTab=function(tabName,tabId){
+            var activeTheTab=activeTab(tabId);
+            if(activeTheTab){
+                return tabId;
+            }
+
+            if(!$tabContainer){
+                return;
+            }
+            currentTab++;
+            var newTabId="tab_"+currentTab;
+
+            var activeNewTab=activeTab(newTabId);
+            if(activeNewTab) {
+                return newTabId;
+            }
+
+            var tab=tabHtmlTemplate.replace("tab_id",newTabId);
+            tab=tab.replace("tab_name",tabName);
+            $(tab).appendTo($tabContainer);
+            activeTab(newTabId);
+            return newTabId;
+        }
+
+        var activeTab =function (tabId) {
+            var $tab=$("#"+tabId);
+            if($tab.length>0){
+                $tab.click();
+                return true;
+            }
+            return false;
+        }
+
+        /*
+         * 初始化tab控件
+         */
+        var init=function(){
+            $tabContainer=$("div.tab-header-container");
+            $pageContainer=$("div.tab-page-container");
+
+            if($tabContainer.length>0){
+                //tab的点击事件
+                $tabContainer.on("click",".tab-header div",function () {
+                    var self=$(this);
+                    var tabList=$tabContainer.find(".tab-header div");
+                    tabList.each(function () {
+                        if($(this).attr("id")===self.attr("id")){
+                            $(this).addClass("tab-active");
+                        }else{
+                            $(this).removeClass("tab-active");
+                        }
+                    });
+                })
+            }
+        }
+
+        return {
+            addTab:function(tabName,tabId){
+                return createTab(tabName,tabId);
+            },
+            activeTab:function(tabId){
+                activeTab(tabId);
+            },
+            init:function(){
+                init();
+            }
+        }
+    })();
+
+
+</script>
 </body>
 </html>
