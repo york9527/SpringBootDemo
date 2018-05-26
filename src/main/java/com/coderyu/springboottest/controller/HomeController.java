@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.util.Date;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -61,7 +63,8 @@ public class HomeController {
     }
 
     @GetMapping("/userlist")
-    public String userList(){
+    public String userList(Model model){
+        model.addAttribute("date", new Date());
         return "userlist";
     }
 }

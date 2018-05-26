@@ -273,24 +273,14 @@ desired effect
 
         <div class="tab-header-container">
             <div class="tab-header">
-                <div id="tab1">销售订单</div>
-                <i class="fa fa-close"></i>
-            </div>
-            <div class="tab-header">
-                <div id="tab2">物流跟踪发货处理</div>
-                <i class="fa fa-close"></i>
-            </div>
-            <div class="tab-header">
-                <div  id="tab3">款票冲兑</div>
-                <i class="fa fa-close"></i>
+                <div id="tab_dashboard">控制面板</div>
             </div>
         </div>
 
-        <div class="tab_page_container">
-            <div class="tab-page" id="page1">
-                <iframe src="/userlist" width="100%" height="100%" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>
+        <div class="tab-page-container">
+            <div class="tab-page" id="page_dashboard">
+                <iframe src="/userlist" width="100%" height="100%" frameborder="0" scrolling="no" onload="resizeIframe(this);"></iframe>
             </div>
-
         </div>
 
         <!-- /.content -->
@@ -393,19 +383,24 @@ desired effect
         tabManager.init();
 
         $(".sidebar-menu a").click(function (e) {
-            var href=$(this).attr("href");
-            if(href!=="#"){
+            var $self=$(this);
+            var tabUrl=$self.attr("href");
+            if(tabUrl!=="#"){
                 e.stopPropagation();
-                var tabId=tabManager.addTab("Test",$(this).data("tabId"));
-                $(this).data("tabId",tabId);
+                var tabName=$self.text();
+                var tabId=$self.data("tabId");
+                var tabId=tabManager.addTab(tabName,tabId,tabUrl);
+                $self.data("tabId",tabId);
                 return false;
             }
             return true;
         })
 
         $(".tab-header-container").on("click",".fa-close",function () {
-           //console.log($(this).prev().attr("id"));
-            $(this).parent().remove();
+           var tabId=$(this).prev().attr("id");
+           var prevTabId=$(this).parent().prev().find("div").attr("id");
+            tabManager.removeTabAndPage(tabId);
+            tabManager.activeTab(prevTabId);
         });
 
     });
@@ -415,13 +410,60 @@ desired effect
     }
 
     var tabManager=(function(){
+        var currentPageZIndex=0;
         var currentTab=0;
-        var currentPageIndex=0;
         var $tabContainer;
+        var $pageContainer;
 
         var tabHtmlTemplate="<div class='tab-header'><div id='tab_id'>tab_name</div><i class='fa fa-close'></i></div>";
+        var pageHtmlTemplate="<div class='tab-page' id='page_id'><iframe src='page_url' width='100%' height='100%' frameborder='0' scrolling='no' onload='resizeIframe(this);'></iframe></div>";
 
-        var createTab=function(tabName,tabId){
+        var removeTabAndPage=function (tabId) {
+            var $tab=$("#"+tabId);
+            var $page=$("#"+tabIdToPageId(tabId));
+            $tab.parent().remove()
+            if($page.length>0){
+                $page.remove();
+            }
+        }
+        
+        var createPage=function (tabId,pageUrl) {
+            var pageId=tabIdToPageId(tabId);
+            if(activePage(pageId)){
+                return;
+            }
+            if(!$pageContainer)
+            {
+                return;
+            }
+
+            var pageTemplate=pageHtmlTemplate.replace("page_id",pageId);
+            pageTemplate=pageTemplate.replace("page_url",pageUrl);
+            $(pageTemplate).appendTo($pageContainer);
+            activePage(pageId);
+        }
+
+        var tabIdToPageId =function (tabId) {
+            var pageId="";
+            if(tabId && tabId.indexOf("_")>0){
+                var arr=tabId.split("_");
+                pageId="page_"+arr[1];
+            }
+            return pageId;
+        }
+
+        var activePage=function (pageId) {
+            var $page=$("#"+pageId);
+            if($page.length>0){
+                $pageContainer.find("div.tab-page").css("visibility","hidden");
+                $page.css("visibility","visible");
+                $page.css("z-index",++currentPageZIndex);
+                return true;
+            }
+            return false;
+        }
+
+        var createTab=function(tabName,tabId,tabUrl){
             var activeTheTab=activeTab(tabId);
             if(activeTheTab){
                 return tabId;
@@ -442,13 +484,24 @@ desired effect
             tab=tab.replace("tab_name",tabName);
             $(tab).appendTo($tabContainer);
             activeTab(newTabId);
+            createPage(newTabId,tabUrl)
             return newTabId;
         }
 
         var activeTab =function (tabId) {
             var $tab=$("#"+tabId);
+            var pageId=tabIdToPageId(tabId);
             if($tab.length>0){
-                $tab.click();
+                var tabList=$tabContainer.find(".tab-header div");
+                tabList.each(function () {
+                    if($(this).attr("id")===tabId){
+                        $(this).addClass("tab-active");
+                    }else{
+                        $(this).removeClass("tab-active");
+                    }
+                });
+
+                activePage(pageId);
                 return true;
             }
             return false;
@@ -461,31 +514,27 @@ desired effect
             $tabContainer=$("div.tab-header-container");
             $pageContainer=$("div.tab-page-container");
 
+
             if($tabContainer.length>0){
                 //tab的点击事件
                 $tabContainer.on("click",".tab-header div",function () {
-                    var self=$(this);
-                    var tabList=$tabContainer.find(".tab-header div");
-                    tabList.each(function () {
-                        if($(this).attr("id")===self.attr("id")){
-                            $(this).addClass("tab-active");
-                        }else{
-                            $(this).removeClass("tab-active");
-                        }
-                    });
+                    activeTab($(this).attr("id"));
                 })
             }
         }
 
         return {
-            addTab:function(tabName,tabId){
-                return createTab(tabName,tabId);
+            addTab:function(tabName,tabId,tabUrl){
+                return createTab(tabName,tabId,tabUrl);
             },
             activeTab:function(tabId){
                 activeTab(tabId);
             },
             init:function(){
                 init();
+            },
+            removeTabAndPage:function (tabId) {
+                removeTabAndPage(tabId);
             }
         }
     })();

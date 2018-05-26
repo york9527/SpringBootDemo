@@ -13,9 +13,11 @@
 
 /*多页面tab*/
 .tab-header-container{
-    border: 0 solid rgba(0,0,0,.125);
+    border: 1px solid darkgray;
     box-shadow: 0 0px 3px #999;
-    border-collapse:collapse
+    border-collapse:collapse;
+    margin-bottom: 2px;
+    border-right: none;
 }
 .tab-header-container .tab-header{
     display: table-cell;
@@ -61,7 +63,15 @@
     background-color: #ccc;
 }
 
-.content-wrapper .tab-page{
-
+.content-wrapper .tab-page-container{
+    position: relative;
 }
+
+.content-wrapper .tab-page{
+    position: absolute;
+    width:100%;
+    height:100%;
+}
+
+
 
