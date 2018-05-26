@@ -273,7 +273,7 @@ desired effect
 
         <div class="tab-header-container">
             <div class="tab-header">
-                <div id="tab_dashboard">控制面板</div>
+                <div id="tab_dashboard" class="tab-active">控制面板</div>
             </div>
         </div>
 
@@ -397,12 +397,13 @@ desired effect
         })
 
         $(".tab-header-container").on("click",".fa-close",function () {
-           var tabId=$(this).prev().attr("id");
-           var prevTabId=$(this).parent().prev().find("div").attr("id");
+            var $self=$(this);
+           var tabId=$self.prev().attr("id");
+            if($self.prev().hasClass("tab-active")){
+                tabManager.activeNextTab(tabId);
+            }
             tabManager.removeTabAndPage(tabId);
-            tabManager.activeTab(prevTabId);
         });
-
     });
 
     function resizeIframe(obj) {
@@ -523,12 +524,23 @@ desired effect
             }
         }
 
+        //当前激活的tab被删除了，需要自动激活下一个tab。
+        var activeNextTab=function (tabIdClosing) {
+            var $tabClosing=$("#"+tabIdClosing);
+            var nextTabToActive=$tabClosing.parent().next();
+            if(nextTabToActive.length<=0){
+                nextTabToActive=$tabClosing.parent().prev();
+            }
+            var activeTabId=nextTabToActive.find("div").attr("id");
+            activeTab(activeTabId);
+        }
+
         return {
             addTab:function(tabName,tabId,tabUrl){
                 return createTab(tabName,tabId,tabUrl);
             },
-            activeTab:function(tabId){
-                activeTab(tabId);
+            activeNextTab:function(tabClosing){
+                activeNextTab(tabClosing);
             },
             init:function(){
                 init();
